@@ -184,7 +184,7 @@ fun IconForTransfer(transfers: List<Ipn.OutgoingFile>) {
     0 ->
         Icon(
             painter = painterResource(R.drawable.warning),
-            contentDescription = "no files",
+            contentDescription = stringResource(R.string.taildrop_no_files_content_description),
             modifier = Modifier.size(32.dp))
     1 -> {
       // Show a thumbnail for single image shares.
@@ -193,21 +193,21 @@ fun IconForTransfer(transfers: List<Ipn.OutgoingFile>) {
         if (it.startsWith("image/")) {
           AsyncImage(
               model = transfers[0].uri,
-              contentDescription = "one file",
+              contentDescription = stringResource(R.string.taildrop_one_file_content_description),
               modifier = Modifier.size(40.dp))
           return
         }
 
         Icon(
             painter = painterResource(R.drawable.single_file),
-            contentDescription = "files",
+            contentDescription = stringResource(R.string.taildrop_files_content_description),
             modifier = Modifier.size(40.dp))
       }
     }
     else ->
         Icon(
             painter = painterResource(R.drawable.single_file),
-            contentDescription = "files",
+            contentDescription = stringResource(R.string.taildrop_files_content_description),
             modifier = Modifier.size(40.dp))
   }
 }

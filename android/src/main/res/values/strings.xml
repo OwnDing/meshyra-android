@@ -52,10 +52,12 @@
     <string name="settings_title">Settings</string>
     <string name="settings_admin_prefix">"Manage your tailnet settings in the "</string>
     <string name="settings_admin_link">admin console</string>
+    <string name="settings_admin_suffix" />
     <string name="about_tailscale">About Tailscale</string>
     <string name="bug_report">Bug report</string>
     <string name="use_ts_dns">Use Tailscale DNS</string>
     <string name="internal_debug_options">Internal debug options</string>
+    <string name="open_settings">Open settings</string>
 
     <!-- Strings for the main screen -->
     <string name="exit_node">EXIT NODE</string>
@@ -77,6 +79,7 @@
     <string name="machine_auth_explainer">This device must be approved by an administrator before it can connect to the tailnet.</string>
     <string name="open_admin_console">Open admin console</string>
     <string name="needs_machine_auth">Authorization required</string>
+    <string name="device_requires_authentication">Device requires authentication</string>
     <string name="disable">Disable</string>
     <string name="enable">Enable</string>
     <string name="stop">Stop</string>
@@ -85,6 +88,20 @@
     <string name="os">OS</string>
     <string name="key_expiry">Key expiry</string>
     <string name="tailscale_addresses">Tailscale addresses</string>
+    <string name="ping_device">Ping device</string>
+
+    <!-- Strings for Meshyra login -->
+    <string name="meshyra_client_title">Meshyra Client</string>
+    <string name="meshyra_client_subtitle">Secure peer-to-peer network connection tool</string>
+    <string name="meshyra_login_username_label">Username</string>
+    <string name="meshyra_login_username_placeholder">Enter username</string>
+    <string name="meshyra_login_password_label">Password</string>
+    <string name="meshyra_login_password_placeholder">Enter password</string>
+    <string name="meshyra_login_captcha_label">Verification code</string>
+    <string name="meshyra_login_captcha_placeholder">Enter verification code</string>
+    <string name="language_toggle_to_chinese">中文</string>
+    <string name="language_toggle_to_english">EN</string>
+    <string name="switch_language">Switch language</string>
 
     <!-- Strings for MDM settings -->
     <string name="current_mdm_settings">Current MDM settings</string>
@@ -255,6 +272,9 @@
     <string name="share_device_not_connected">Unable to share files with this device. This device is not currently connected to the tailnet.</string>
     <string name="no_files_to_share">No files to share</string>
     <string name="file_count">%1$s files</string>
+    <string name="taildrop_no_files_content_description">No files</string>
+    <string name="taildrop_one_file_content_description">One file</string>
+    <string name="taildrop_files_content_description">Files</string>
     <string name="connect_to_your_tailnet_to_share_files">Connect to your tailnet to share files.</string>
     <string name="my_devices">My devices</string>
     <string name="no_devices_to_share_with">There are no devices on your tailnet to share to</string>
@@ -325,6 +345,7 @@
     <string name="mullvad_info_explainer">Once you enable Mullvad VPN on the admin console, you\'ll be able to encrypt and route your traffic using Mullvad’s global network of servers as exit nodes.</string>
     <string name="mullvad_info_title">Mullvad VPN is not configured</string>
     <string name="the_mullvad_vpn_logo">The Mullvad VPN logo</string>
+    <string name="green_checkmark_content_description">A green checkmark</string>
     <string name="health_warnings">Health warnings</string>
     <string name="no_issues_found">No issues found</string>
     <string name="tailscale_is_operating_normally">Tailscale is operating normally.</string>

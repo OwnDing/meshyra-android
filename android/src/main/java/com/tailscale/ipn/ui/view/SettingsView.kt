@@ -206,6 +206,8 @@ fun AdminTextView(onNavigateToAdminConsole: () -> Unit) {
                 textDecoration = TextDecoration.Underline)) {
           append(stringResource(id = R.string.settings_admin_link))
         }
+    pop()
+    append(stringResource(id = R.string.settings_admin_suffix))
   }
 
   Lists.InfoItem(adminStr, onClick = onNavigateToAdminConsole)

@@ -3,7 +3,6 @@
 
 package com.tailscale.ipn.ui.view
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,24 +31,30 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import com.tailscale.ipn.R
 import com.tailscale.ipn.ui.util.set
 import com.tailscale.ipn.ui.viewModel.MeshyraLoginViewModel
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,6 +64,10 @@ fun MeshyraLoginView(
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.errorDialog.collectAsState()
+    val context = LocalContext.current
+    val activity = context.findActivity()
+    val currentLocale = LocalConfiguration.current.locales[0]
+    val isChinese = currentLocale.language.equals("zh", ignoreCase = true)
 
     Scaffold { innerPadding ->
         Box(
@@ -74,6 +83,23 @@ fun MeshyraLoginView(
                 ErrorDialog(type = it, action = { viewModel.errorDialog.set(null) }) 
             }
 
+            TextButton(
+                onClick = {
+                    val tags = if (isChinese) "en" else "zh-Hans"
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tags))
+                    activity?.recreate()
+                },
+                modifier = Modifier.align(Alignment.TopEnd).padding(12.dp),
+            ) {
+                Text(
+                    text =
+                        stringResource(
+                            if (isChinese) R.string.language_toggle_to_english
+                            else R.string.language_toggle_to_chinese
+                        ),
+                )
+            }
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -87,13 +113,13 @@ fun MeshyraLoginView(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "Meshyra Client", // Or Meshyra Client if we updated strings
+                    text = stringResource(R.string.meshyra_client_title),
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold
                 )
                 
                 Text(
-                    text = "安全的点对点网络连接工具",
+                    text = stringResource(R.string.meshyra_client_subtitle),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -115,18 +141,24 @@ fun MeshyraLoginView(
                         // User request: "但是没有 扫码登入栏". 
                         // Implementation: Just show Account Login form.
 
-                        var username by remember { mutableStateOf("") }
-                        var password by remember { mutableStateOf("") }
-                        var captcha by remember { mutableStateOf("") }
+                        var username by rememberSaveable { mutableStateOf("") }
+                        var password by rememberSaveable { mutableStateOf("") }
+                        var captcha by rememberSaveable { mutableStateOf("") }
                         val focusManager = LocalFocusManager.current
 
                         // Username
                         Column {
-                            Text("用户名", style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(bottom = 4.dp))
+                            Text(
+                                stringResource(R.string.meshyra_login_username_label),
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.padding(bottom = 4.dp),
+                            )
                             OutlinedTextField(
                                 value = username,
                                 onValueChange = { username = it },
-                                placeholder = { Text("请输入用户名") },
+                                placeholder = {
+                                    Text(stringResource(R.string.meshyra_login_username_placeholder))
+                                },
                                 modifier = Modifier.fillMaxWidth(),
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -136,11 +168,17 @@ fun MeshyraLoginView(
 
                         // Password
                         Column {
-                            Text("密码", style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(bottom = 4.dp))
+                            Text(
+                                stringResource(R.string.meshyra_login_password_label),
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.padding(bottom = 4.dp),
+                            )
                             OutlinedTextField(
                                 value = password,
                                 onValueChange = { password = it },
-                                placeholder = { Text("请输入密码") },
+                                placeholder = {
+                                    Text(stringResource(R.string.meshyra_login_password_placeholder))
+                                },
                                 modifier = Modifier.fillMaxWidth(),
                                 singleLine = true,
                                 visualTransformation = PasswordVisualTransformation(),
@@ -151,12 +189,22 @@ fun MeshyraLoginView(
 
                         // Captcha
                         Column {
-                            Text("验证码", style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(bottom = 4.dp))
+                            Text(
+                                stringResource(R.string.meshyra_login_captcha_label),
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.padding(bottom = 4.dp),
+                            )
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 OutlinedTextField(
                                     value = captcha,
                                     onValueChange = { captcha = it },
-                                    placeholder = { Text("请输入验证码") },
+                                    placeholder = {
+                                        Text(
+                                            stringResource(
+                                                R.string.meshyra_login_captcha_placeholder
+                                            )
+                                        )
+                                    },
                                     modifier = Modifier.weight(1f),
                                     singleLine = true,
                                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -194,7 +242,7 @@ fun MeshyraLoginView(
                                     color = MaterialTheme.colorScheme.onPrimary
                                 )
                             } else {
-                                Text("登录")
+                                Text(stringResource(R.string.log_in))
                             }
                         }
                     }
@@ -203,3 +251,10 @@ fun MeshyraLoginView(
         }
     }
 }
+
+private fun Context.findActivity(): Activity? =
+    when (this) {
+        is Activity -> this
+        is ContextWrapper -> baseContext.findActivity()
+        else -> null
+    }

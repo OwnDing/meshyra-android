@@ -49,7 +49,8 @@ fun HealthView(backToSettings: BackNavigation, model: HealthViewModel = viewMode
                 Icon(
                     painter = painterResource(id = R.drawable.check_circle),
                     modifier = Modifier.size(48.dp),
-                    contentDescription = "A green checkmark",
+                    contentDescription =
+                        stringResource(R.string.green_checkmark_content_description),
                     tint = MaterialTheme.colorScheme.success)
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
