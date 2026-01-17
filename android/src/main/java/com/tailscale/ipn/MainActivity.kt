@@ -75,6 +75,7 @@ import com.tailscale.ipn.ui.view.LoginWithAuthKeyView
 import com.tailscale.ipn.ui.view.LoginWithCustomControlURLView
 import com.tailscale.ipn.ui.view.MDMSettingsDebugView
 import com.tailscale.ipn.ui.view.MainView
+import com.tailscale.ipn.ui.view.MeshyraLoginView
 import com.tailscale.ipn.ui.view.MainViewNavigation
 import com.tailscale.ipn.ui.view.ManagedByView
 import com.tailscale.ipn.ui.view.MullvadExitNodePicker
@@ -258,7 +259,7 @@ class MainActivity : ComponentActivity() {
           Surface(modifier = Modifier.universalFit()) { // Letterbox for AndroidTV
             NavHost(
                 navController = navController,
-                startDestination = "main",
+                startDestination = "meshyra_login",
                 enterTransition = {
                   slideInHorizontally(
                       animationSpec = tween(250, easing = LinearOutSlowInEasing),
@@ -402,11 +403,38 @@ class MainActivity : ComponentActivity() {
                     LoginWithCustomControlURLView(
                         onNavigateHome = backTo("main"), backTo("userSwitcher"))
                   }
+                  composable("loginWithCustomControl") {
+                    LoginWithCustomControlURLView(
+                        onNavigateHome = backTo("main"), backTo("userSwitcher"))
+                  }
+                  composable("meshyra_login") {
+                      MeshyraLoginView(
+                          onNavigateHome = {
+                              // Navigation is handled by observing loggedInUser state below
+                          }
+                      )
+                  }
                 }
-            if (isIntroScreenViewedSet()) {
-              navController.navigate("intro")
-              setIntroScreenViewed(true)
+
+            val user by viewModel.loggedInUser.collectAsState()
+            LaunchedEffect(user) {
+                if (user != null) {
+                    navController.navigate("main") {
+                        popUpTo("meshyra_login") { inclusive = true }
+                    }
+                } else {
+                     if (navController.currentDestination?.route != "meshyra_login" && navController.currentDestination?.route != null) {
+                        navController.navigate("meshyra_login") {
+                            popUpTo("main") { inclusive = true }
+                        }
+                    }
+                }
             }
+            // Intro screen disabled for Meshyra Client
+            // if (isIntroScreenViewedSet()) {
+            //   navController.navigate("intro")
+            //   setIntroScreenViewed(true)
+            // }
           }
         }
         // Login actions are app wide.  If we are told about a browse-to-url, we should render it

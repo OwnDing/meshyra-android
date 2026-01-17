@@ -269,6 +269,8 @@
     <string name="add_profile_failed_title">Unable to add profile</string>
     <string name="share_device_not_connected_title">Not connected</string>
     <string name="taildrop_share_failed_title">Taildrop failed</string>
+    <string name="login_failed_title">Login Failed</string>
+    <string name="login_failed">Unable to login. Please check your username and password.</string>
 
     <!-- Strings for the intro screen -->
     <string name="getStarted">Get Started</string>
