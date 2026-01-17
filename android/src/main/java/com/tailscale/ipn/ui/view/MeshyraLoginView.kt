@@ -38,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -52,9 +51,6 @@ import androidx.core.os.LocaleListCompat
 import com.tailscale.ipn.R
 import com.tailscale.ipn.ui.util.set
 import com.tailscale.ipn.ui.viewModel.MeshyraLoginViewModel
-import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,8 +60,6 @@ fun MeshyraLoginView(
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.errorDialog.collectAsState()
-    val context = LocalContext.current
-    val activity = context.findActivity()
     val currentLocale = LocalConfiguration.current.locales[0]
     val isChinese = currentLocale.language.equals("zh", ignoreCase = true)
 
@@ -87,7 +81,6 @@ fun MeshyraLoginView(
                 onClick = {
                     val tags = if (isChinese) "en" else "zh-Hans"
                     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tags))
-                    activity?.recreate()
                 },
                 modifier = Modifier.align(Alignment.TopEnd).padding(12.dp),
             ) {
@@ -251,10 +244,3 @@ fun MeshyraLoginView(
         }
     }
 }
-
-private fun Context.findActivity(): Activity? =
-    when (this) {
-        is Activity -> this
-        is ContextWrapper -> baseContext.findActivity()
-        else -> null
-    }

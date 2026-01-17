@@ -33,8 +33,8 @@ class MeshyraLoginViewModel : IpnViewModel() {
             // Hardcoded mock success for "test" user (or any user for now to make it easy to test)
             // In a real app, validate credentials here.
             val mockResponse = LoginResponse(
-                authKey = "7268a15c0edf6155582614dd3bf0a13d67584cbf97270cf3", // Example format
-                controlUrl = "https://vpn.ownding.xyz:8088" // Standard or custom URL
+                authKey = "tskey-auth-kCY222CNTRL-mockAuthKeyForMeshyraClient123", // Example format
+                controlUrl = "https://controlplane.tailscale.com" // Standard or custom URL
             )
 
             // Proceed to login with Tailscale backend
