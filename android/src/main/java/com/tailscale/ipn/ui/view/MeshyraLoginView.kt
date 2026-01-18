@@ -12,11 +12,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -44,7 +49,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
@@ -69,37 +76,24 @@ fun MeshyraLoginView(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .background(MaterialTheme.colorScheme.background),
-            contentAlignment = Alignment.Center
         ) {
+            val scrollState = rememberScrollState()
             
             // Error handling
             error?.let { 
                 ErrorDialog(type = it, action = { viewModel.errorDialog.set(null) }) 
             }
 
-            TextButton(
-                onClick = {
-                    val tags = if (isChinese) "en" else "zh-Hans"
-                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tags))
-                },
-                modifier = Modifier.align(Alignment.TopEnd).padding(12.dp),
-            ) {
-                Text(
-                    text =
-                        stringResource(
-                            if (isChinese) R.string.language_toggle_to_english
-                            else R.string.language_toggle_to_chinese
-                        ),
-                )
-            }
-
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+                    .imePadding()
+                    .navigationBarsPadding()
                     .padding(24.dp)
             ) {
+                Spacer(modifier = Modifier.height(16.dp))
                 // Logo
                 TailscaleLogoView(modifier = Modifier.size(64.dp))
                 
@@ -150,7 +144,12 @@ fun MeshyraLoginView(
                                 value = username,
                                 onValueChange = { username = it },
                                 placeholder = {
-                                    Text(stringResource(R.string.meshyra_login_username_placeholder))
+                                    Text(
+                                        text =
+                                            stringResource(R.string.meshyra_login_username_placeholder),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                    )
                                 },
                                 modifier = Modifier.fillMaxWidth(),
                                 singleLine = true,
@@ -170,7 +169,12 @@ fun MeshyraLoginView(
                                 value = password,
                                 onValueChange = { password = it },
                                 placeholder = {
-                                    Text(stringResource(R.string.meshyra_login_password_placeholder))
+                                    Text(
+                                        text =
+                                            stringResource(R.string.meshyra_login_password_placeholder),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                    )
                                 },
                                 modifier = Modifier.fillMaxWidth(),
                                 singleLine = true,
@@ -193,9 +197,12 @@ fun MeshyraLoginView(
                                     onValueChange = { captcha = it },
                                     placeholder = {
                                         Text(
-                                            stringResource(
-                                                R.string.meshyra_login_captcha_placeholder
-                                            )
+                                            text =
+                                                stringResource(
+                                                    R.string.meshyra_login_captcha_placeholder
+                                                ),
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
                                         )
                                     },
                                     modifier = Modifier.weight(1f),
@@ -240,6 +247,28 @@ fun MeshyraLoginView(
                         }
                     }
                 }
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+
+            TextButton(
+                onClick = {
+                    val tags = if (isChinese) "en" else "zh-Hans"
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tags))
+                },
+                modifier =
+                    Modifier
+                        .align(Alignment.TopEnd)
+                        .statusBarsPadding()
+                        .padding(12.dp)
+                        .zIndex(1f),
+            ) {
+                Text(
+                    text =
+                        stringResource(
+                            if (isChinese) R.string.language_toggle_to_english
+                            else R.string.language_toggle_to_chinese
+                        ),
+                )
             }
         }
     }

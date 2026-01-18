@@ -89,6 +89,7 @@ import com.tailscale.ipn.ui.view.RunExitNodeView
 import com.tailscale.ipn.ui.view.SearchView
 import com.tailscale.ipn.ui.view.SettingsView
 import com.tailscale.ipn.ui.view.SplitTunnelAppPickerView
+import com.tailscale.ipn.ui.view.StartingView
 import com.tailscale.ipn.ui.view.SubnetRoutingView
 import com.tailscale.ipn.ui.view.TaildropDirView
 import com.tailscale.ipn.ui.view.TaildropDirectoryPickerPrompt
@@ -253,93 +254,108 @@ class MainActivity : AppCompatActivity() {
       }
 
       navController = rememberNavController()
+      val ipnState by viewModel.ipnState.collectAsState()
+      val showNavHost = ipnState != Ipn.State.NoState
+      val startDestination =
+          remember(showNavHost) {
+            if (ipnState == Ipn.State.NeedsLogin) "meshyra_login" else "main"
+          }
 
       AppTheme {
         Surface(color = MaterialTheme.colorScheme.inverseSurface) { // Background for the letterbox
           Surface(modifier = Modifier.universalFit()) { // Letterbox for AndroidTV
-            NavHost(
-                navController = navController,
-                startDestination = "meshyra_login",
-                enterTransition = {
-                  slideInHorizontally(
-                      animationSpec = tween(250, easing = LinearOutSlowInEasing),
-                      initialOffsetX = { it }) +
-                      fadeIn(animationSpec = tween(500, easing = LinearOutSlowInEasing))
-                },
-                exitTransition = {
-                  slideOutHorizontally(
-                      animationSpec = tween(250, easing = LinearOutSlowInEasing),
-                      targetOffsetX = { -it }) +
-                      fadeOut(animationSpec = tween(500, easing = LinearOutSlowInEasing))
-                },
-                popEnterTransition = {
-                  slideInHorizontally(
-                      animationSpec = tween(250, easing = LinearOutSlowInEasing),
-                      initialOffsetX = { -it }) +
-                      fadeIn(animationSpec = tween(500, easing = LinearOutSlowInEasing))
-                },
-                popExitTransition = {
-                  slideOutHorizontally(
-                      animationSpec = tween(250, easing = LinearOutSlowInEasing),
-                      targetOffsetX = { it }) +
-                      fadeOut(animationSpec = tween(500, easing = LinearOutSlowInEasing))
-                }) {
-                  fun backTo(route: String): () -> Unit = {
-                    navController.popBackStack(route = route, inclusive = false)
-                  }
-                  val mainViewNav =
-                      MainViewNavigation(
-                          onNavigateToSettings = { navController.navigate("settings") },
-                          onNavigateToPeerDetails = {
-                            navController.navigate("peerDetails/${it.StableID}")
-                          },
-                          onNavigateToExitNodes = { navController.navigate("exitNodes") },
-                          onNavigateToHealth = { navController.navigate("health") },
-                          onNavigateToSearch = {
-                            viewModel.enableSearchAutoFocus()
-                            navController.navigate("search")
-                          })
-                  val settingsNav =
-                      SettingsNav(
-                          onNavigateToBugReport = { navController.navigate("bugReport") },
-                          onNavigateToAbout = { navController.navigate("about") },
-                          onNavigateToDNSSettings = { navController.navigate("dnsSettings") },
-                          onNavigateToSplitTunneling = { navController.navigate("splitTunneling") },
-                          onNavigateToTailnetLock = { navController.navigate("tailnetLock") },
-                          onNavigateToSubnetRouting = { navController.navigate("subnetRouting") },
-                          onNavigateToMDMSettings = { navController.navigate("mdmSettings") },
-                          onNavigateToManagedBy = { navController.navigate("managedBy") },
-                          onNavigateToUserSwitcher = { navController.navigate("userSwitcher") },
-                          onNavigateToPermissions = { navController.navigate("permissions") },
-                          onBackToSettings = backTo("settings"),
-                          onNavigateBackHome = backTo("main"))
-                  val exitNodePickerNav =
-                      ExitNodePickerNav(
-                          onNavigateBackHome = {
-                            navController.popBackStack(route = "main", inclusive = false)
-                          },
-                          onNavigateBackToExitNodes = backTo("exitNodes"),
-                          onNavigateToMullvad = { navController.navigate("mullvad") },
-                          onNavigateToMullvadInfo = { navController.navigate("mullvad_info") },
-                          onNavigateBackToMullvad = backTo("mullvad"),
-                          onNavigateToMullvadCountry = { navController.navigate("mullvad/$it") },
-                          onNavigateToRunAsExitNode = { navController.navigate("runExitNode") })
-                  val userSwitcherNav =
-                      UserSwitcherNav(
-                          backToSettings = backTo("settings"),
-                          onNavigateHome = backTo("main"),
-                          onNavigateCustomControl = {
-                            navController.navigate("loginWithCustomControl")
-                          },
-                          onNavigateToAuthKey = { navController.navigate("loginWithAuthKey") })
+            if (showNavHost) {
+              NavHost(
+                  navController = navController,
+                  startDestination = startDestination,
+                  enterTransition = {
+                    slideInHorizontally(
+                        animationSpec = tween(250, easing = LinearOutSlowInEasing),
+                        initialOffsetX = { it }) +
+                        fadeIn(animationSpec = tween(500, easing = LinearOutSlowInEasing))
+                  },
+                  exitTransition = {
+                    slideOutHorizontally(
+                        animationSpec = tween(250, easing = LinearOutSlowInEasing),
+                        targetOffsetX = { -it }) +
+                        fadeOut(animationSpec = tween(500, easing = LinearOutSlowInEasing))
+                  },
+                  popEnterTransition = {
+                    slideInHorizontally(
+                        animationSpec = tween(250, easing = LinearOutSlowInEasing),
+                        initialOffsetX = { -it }) +
+                        fadeIn(animationSpec = tween(500, easing = LinearOutSlowInEasing))
+                  },
+                  popExitTransition = {
+                    slideOutHorizontally(
+                        animationSpec = tween(250, easing = LinearOutSlowInEasing),
+                        targetOffsetX = { it }) +
+                        fadeOut(animationSpec = tween(500, easing = LinearOutSlowInEasing))
+                  }) {
+                    fun backTo(route: String): () -> Unit = {
+                      navController.popBackStack(route = route, inclusive = false)
+                    }
+                    val mainViewNav =
+                        MainViewNavigation(
+                            onNavigateToSettings = { navController.navigate("settings") },
+                            onNavigateToPeerDetails = {
+                              navController.navigate("peerDetails/${it.StableID}")
+                            },
+                            onNavigateToExitNodes = { navController.navigate("exitNodes") },
+                            onNavigateToHealth = { navController.navigate("health") },
+                            onNavigateToSearch = {
+                              viewModel.enableSearchAutoFocus()
+                              navController.navigate("search")
+                            })
+                    val settingsNav =
+                        SettingsNav(
+                            onNavigateToBugReport = { navController.navigate("bugReport") },
+                            onNavigateToAbout = { navController.navigate("about") },
+                            onNavigateToDNSSettings = { navController.navigate("dnsSettings") },
+                            onNavigateToSplitTunneling = {
+                              navController.navigate("splitTunneling")
+                            },
+                            onNavigateToTailnetLock = { navController.navigate("tailnetLock") },
+                            onNavigateToSubnetRouting = {
+                              navController.navigate("subnetRouting")
+                            },
+                            onNavigateToMDMSettings = { navController.navigate("mdmSettings") },
+                            onNavigateToManagedBy = { navController.navigate("managedBy") },
+                            onNavigateToUserSwitcher = { navController.navigate("userSwitcher") },
+                            onNavigateToPermissions = { navController.navigate("permissions") },
+                            onBackToSettings = backTo("settings"),
+                            onNavigateBackHome = backTo("main"))
+                    val exitNodePickerNav =
+                        ExitNodePickerNav(
+                            onNavigateBackHome = {
+                              navController.popBackStack(route = "main", inclusive = false)
+                            },
+                            onNavigateBackToExitNodes = backTo("exitNodes"),
+                            onNavigateToMullvad = { navController.navigate("mullvad") },
+                            onNavigateToMullvadInfo = { navController.navigate("mullvad_info") },
+                            onNavigateBackToMullvad = backTo("mullvad"),
+                            onNavigateToMullvadCountry = { navController.navigate("mullvad/$it") },
+                            onNavigateToRunAsExitNode = {
+                              navController.navigate("runExitNode")
+                            })
+                    val userSwitcherNav =
+                        UserSwitcherNav(
+                            backToSettings = backTo("settings"),
+                            onNavigateHome = backTo("main"),
+                            onNavigateCustomControl = {
+                              navController.navigate("loginWithCustomControl")
+                            },
+                            onNavigateToAuthKey = {
+                              navController.navigate("loginWithAuthKey")
+                            })
 
-                  composable("main", enterTransition = { fadeIn(animationSpec = tween(150)) }) {
-                    MainView(
-                        loginAtUrl = ::login,
-                        navigation = mainViewNav,
-                        viewModel = viewModel,
-                        appViewModel = appViewModel)
-                  }
+                    composable("main", enterTransition = { fadeIn(animationSpec = tween(150)) }) {
+                      MainView(
+                          loginAtUrl = ::login,
+                          navigation = mainViewNav,
+                          viewModel = viewModel,
+                          appViewModel = appViewModel)
+                    }
                   composable("search") {
                     val autoFocus = viewModel.autoFocusSearch
                     SearchView(
@@ -403,10 +419,6 @@ class MainActivity : AppCompatActivity() {
                     LoginWithCustomControlURLView(
                         onNavigateHome = backTo("main"), backTo("userSwitcher"))
                   }
-                  composable("loginWithCustomControl") {
-                    LoginWithCustomControlURLView(
-                        onNavigateHome = backTo("main"), backTo("userSwitcher"))
-                  }
                   composable("meshyra_login") {
                       MeshyraLoginView(
                           onNavigateHome = {
@@ -414,21 +426,28 @@ class MainActivity : AppCompatActivity() {
                           }
                       )
                   }
-                }
+                  }
 
-            val user by viewModel.loggedInUser.collectAsState()
-            LaunchedEffect(user) {
-                if (user != null) {
-                    navController.navigate("main") {
-                        popUpTo("meshyra_login") { inclusive = true }
+              LaunchedEffect(ipnState) {
+                val currentRoute = navController.currentDestination?.route ?: return@LaunchedEffect
+                if (ipnState == Ipn.State.NeedsLogin) {
+                  if (currentRoute != "meshyra_login") {
+                    navController.navigate("meshyra_login") {
+                      popUpTo("main") { inclusive = true }
+                      launchSingleTop = true
                     }
+                  }
                 } else {
-                     if (navController.currentDestination?.route != "meshyra_login" && navController.currentDestination?.route != null) {
-                        navController.navigate("meshyra_login") {
-                            popUpTo("main") { inclusive = true }
-                        }
+                  if (currentRoute == "meshyra_login") {
+                    navController.navigate("main") {
+                      popUpTo("meshyra_login") { inclusive = true }
+                      launchSingleTop = true
                     }
+                  }
                 }
+              }
+            } else {
+              StartingView()
             }
             // Intro screen disabled for Meshyra Client
             // if (isIntroScreenViewedSet()) {
@@ -501,17 +520,11 @@ class MainActivity : AppCompatActivity() {
       if (this::navController.isInitialized) {
         val previousEntry = navController.previousBackStackEntry
         TSLog.d("MainActivity", "onNewIntent: previousBackStackEntry = $previousEntry")
-        if (this::navController.isInitialized) {
-          val previousEntry = navController.previousBackStackEntry
-          TSLog.d("MainActivity", "onNewIntent: previousBackStackEntry = $previousEntry")
-          if (previousEntry != null) {
-            navController.popBackStack(route = "main", inclusive = false)
-          } else {
-            TSLog.e(
-                "MainActivity",
-                "onNewIntent: No previous back stack entry, navigating directly to 'main'")
-            navController.navigate("main") { popUpTo("main") { inclusive = true } }
-          }
+        if (previousEntry != null) {
+          navController.popBackStack(route = "main", inclusive = false)
+        } else {
+          TSLog.e("MainActivity", "onNewIntent: No previous back stack entry, navigating to 'main'")
+          navController.navigate("main") { popUpTo("main") { inclusive = true } }
         }
       }
     }
