@@ -46,6 +46,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
@@ -591,15 +592,16 @@ class MainActivity : AppCompatActivity() {
     startActivity(intent)
   }
 
+  private val introScreenPrefs by lazy(LazyThreadSafetyMode.NONE) {
+    applicationContext.getSharedPreferences("introScreen", Context.MODE_PRIVATE)
+  }
+
   private fun isIntroScreenViewedSet(): Boolean {
-    return !getSharedPreferences("introScreen", Context.MODE_PRIVATE).getBoolean("seen", false)
+    return !introScreenPrefs.getBoolean("seen", false)
   }
 
   private fun setIntroScreenViewed(seen: Boolean) {
-    getSharedPreferences("introScreen", Context.MODE_PRIVATE)
-        .edit()
-        .putBoolean("seen", seen)
-        .apply()
+    introScreenPrefs.edit { putBoolean("seen", seen) }
   }
 }
 
