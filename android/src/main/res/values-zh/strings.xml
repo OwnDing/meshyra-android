@@ -95,6 +95,10 @@
     <string name="meshyra_login_password_placeholder">请输入密码</string>
     <string name="meshyra_login_captcha_label">验证码</string>
     <string name="meshyra_login_captcha_placeholder">请输入验证码</string>
+    <string name="meshyra_login_captcha_image">验证码图片</string>
+    <string name="meshyra_login_error_missing_fields">请填写用户名、密码和验证码。</string>
+    <string name="meshyra_login_error_captcha_not_ready">验证码未就绪，请点击图片刷新。</string>
+    <string name="network_error">网络错误，请重试。</string>
     <string name="language_toggle_to_chinese">中文</string>
     <string name="language_toggle_to_english">EN</string>
     <string name="switch_language">切换语言</string>

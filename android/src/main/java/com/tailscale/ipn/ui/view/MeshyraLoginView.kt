@@ -3,7 +3,11 @@
 
 package com.tailscale.ipn.ui.view
 
+import android.graphics.BitmapFactory
+import android.util.Base64
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +21,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -35,12 +40,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -57,6 +67,8 @@ import androidx.core.os.LocaleListCompat
 import com.tailscale.ipn.R
 import com.tailscale.ipn.ui.util.set
 import com.tailscale.ipn.ui.viewModel.MeshyraLoginViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,9 +77,27 @@ fun MeshyraLoginView(
     viewModel: MeshyraLoginViewModel = viewModel()
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
-    val error by viewModel.errorDialog.collectAsState()
+    val isCaptchaLoading by viewModel.isCaptchaLoading.collectAsState()
+    val captchaState by viewModel.captcha.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
     val currentLocale = LocalConfiguration.current.locales[0]
     val isChinese = currentLocale.language.equals("zh", ignoreCase = true)
+    val captchaBitmap by
+        produceState<ImageBitmap?>(initialValue = null, key1 = captchaState?.imageBase64) {
+          val dataUri = captchaState?.imageBase64.orEmpty()
+          val base64 = dataUri.substringAfter(',', missingDelimiterValue = "")
+          value =
+              if (base64.isBlank()) null
+              else {
+                withContext(Dispatchers.Default) {
+                  runCatching {
+                        val decoded = Base64.decode(base64, Base64.DEFAULT)
+                        BitmapFactory.decodeByteArray(decoded, 0, decoded.size)?.asImageBitmap()
+                      }
+                      .getOrNull()
+                }
+              }
+        }
 
     Scaffold { innerPadding ->
         Box(
@@ -79,8 +109,8 @@ fun MeshyraLoginView(
             val scrollState = rememberScrollState()
             
             // Error handling
-            error?.let { 
-                ErrorDialog(type = it, action = { viewModel.errorDialog.set(null) }) 
+            errorMessage?.let { message ->
+                ErrorDialog(message = message, onDismiss = { viewModel.errorMessage.set(null) })
             }
 
             Column(
@@ -213,15 +243,30 @@ fun MeshyraLoginView(
                                     })
                                 )
                                 Spacer(modifier = Modifier.size(8.dp))
-                                // Placeholder for captcha image - using a simple box or text button for now
                                 Box(
                                     modifier = Modifier
+                                        .width(96.dp)
                                         .height(56.dp)
-                                        .background(Color.LightGray, RoundedCornerShape(4.dp))
-                                        .padding(horizontal = 12.dp),
+                                        .clip(RoundedCornerShape(4.dp))
+                                        .background(Color.LightGray)
+                                        .clickable(enabled = !isCaptchaLoading) { viewModel.refreshCaptcha() },
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Text("AB3X", fontWeight = FontWeight.Bold, color = Color.White)
+                                    captchaBitmap?.let { bitmap ->
+                                        Image(
+                                            bitmap = bitmap,
+                                            contentDescription = stringResource(R.string.meshyra_login_captcha_image),
+                                            modifier = Modifier.fillMaxSize(),
+                                            contentScale = ContentScale.FillBounds,
+                                        )
+                                    }
+                                    if (isCaptchaLoading) {
+                                        CircularProgressIndicator(
+                                            modifier = Modifier.size(20.dp),
+                                            color = MaterialTheme.colorScheme.primary,
+                                            strokeWidth = 2.dp,
+                                        )
+                                    }
                                 }
                             }
                         }

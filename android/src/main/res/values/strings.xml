@@ -99,6 +99,10 @@
     <string name="meshyra_login_password_placeholder">Enter password</string>
     <string name="meshyra_login_captcha_label">Verification code</string>
     <string name="meshyra_login_captcha_placeholder">Enter verification code</string>
+    <string name="meshyra_login_captcha_image">Captcha image</string>
+    <string name="meshyra_login_error_missing_fields">Please fill in username, password, and verification code.</string>
+    <string name="meshyra_login_error_captcha_not_ready">Captcha not ready. Tap the image to refresh.</string>
+    <string name="network_error">Network error. Please try again.</string>
     <string name="language_toggle_to_chinese">中文</string>
     <string name="language_toggle_to_english">EN</string>
     <string name="switch_language">Switch language</string>
