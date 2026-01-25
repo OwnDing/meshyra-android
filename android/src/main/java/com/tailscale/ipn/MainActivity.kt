@@ -59,6 +59,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.tailscale.ipn.mdm.MDMSettings
 import com.tailscale.ipn.mdm.ShowHide
+import com.tailscale.ipn.ui.config.MeshyraAppConfig
 import com.tailscale.ipn.ui.model.Ipn
 import com.tailscale.ipn.ui.notifier.Notifier
 import com.tailscale.ipn.ui.theme.AppTheme
@@ -469,18 +470,22 @@ class MainActivity : AppCompatActivity() {
   init {
     // Watch the model's browseToURL and launch the browser when it changes or
     // pop up a QR code to scan
-    lifecycleScope.launch {
-      Notifier.browseToURL.collect { url ->
-        url?.let {
-          when (useQRCodeLogin()) {
-            false -> Dispatchers.Main.run { login(it) }
-            true -> loginQRCode.set(it)
+    if (MeshyraAppConfig.ENABLE_TAILSCALE_BROWSER_LOGIN) {
+      lifecycleScope.launch {
+        Notifier.browseToURL.collect { url ->
+          url?.let {
+            when (useQRCodeLogin()) {
+              false -> Dispatchers.Main.run { login(it) }
+              true -> loginQRCode.set(it)
+            }
           }
         }
       }
+      // Once we see a loginFinished event, clear the QR code which will dismiss the QR dialog.
+      lifecycleScope.launch { Notifier.loginFinished.collect { _ -> loginQRCode.set(null) } }
+    } else {
+      TSLog.d(TAG, "Tailscale browser login disabled (MeshyraAppConfig)")
     }
-    // Once we see a loginFinished event, clear the QR code which will dismiss the QR dialog.
-    lifecycleScope.launch { Notifier.loginFinished.collect { _ -> loginQRCode.set(null) } }
   }
 
   private fun showOtherVPNConflictDialog() {
