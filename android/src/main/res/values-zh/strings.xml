@@ -28,13 +28,15 @@
     <string name="cancel">取消</string>
 
     <!-- Strings for the about screen -->
+    <string name="app_name">云雀通</string>
+    <string name="tile_name">云雀通</string>
     <string name="version">版本</string>
-    <string name="about_view_header">关于 Tailscale</string>
-    <string name="about_view_title">Android 版 Tailscale</string>
+    <string name="about_view_header">关于云雀通</string>
+    <string name="about_view_title">Android 版云雀通</string>
     <string name="acknowledgements">致谢</string>
     <string name="privacy_policy">隐私政策</string>
     <string name="terms_of_service">服务条款</string>
-    <string name="about_view_footnotes">WireGuard 是 Jason A. Donenfeld 的注册商标。\n\n© 2024 Tailscale Inc. 保留所有权利。\nTailscale 是 Tailscale Inc. 的注册商标。</string>
+    <string name="about_view_footnotes">WireGuard 是 Jason A. Donenfeld 的注册商标。\n\n© 2024 云雀通。保留所有权利。</string>
     <string name="managed_by">管理方</string>
 
     <!-- Strings for the bug reporting screen -->
@@ -49,9 +51,9 @@
     <string name="settings_admin_prefix">在</string>
     <string name="settings_admin_link">管理控制台</string>
     <string name="settings_admin_suffix">中管理你的 tailnet 设置</string>
-    <string name="about_tailscale">关于 Tailscale</string>
+    <string name="about_tailscale">关于云雀通</string>
     <string name="bug_report">问题反馈</string>
-    <string name="use_ts_dns">使用 Tailscale DNS</string>
+    <string name="use_ts_dns">使用云雀通 DNS</string>
     <string name="internal_debug_options">内部调试选项</string>
     <string name="open_settings">打开设置</string>
 
@@ -64,10 +66,10 @@
     <string name="starting">正在启动…</string>
     <string name="connect_to_tailnet_prefix">重新连接以与 tailnet </string>
     <string name="connect_to_tailnet_suffix"> 中的其他设备通信。</string>
-    <string name="welcome_to_tailscale">欢迎使用 Tailscale</string>
+    <string name="welcome_to_tailscale">欢迎使用云雀通</string>
     <string name="login_to_join_your_tailnet">登录以加入你的 tailnet 并连接你的设备。</string>
-    <string name="give_permissions">设置 VPN 连接，以便开始使用 Tailscale。</string>
-    <string name="keyExpiryExplainer">重新认证以保持与 Tailscale 的连接。</string>
+    <string name="give_permissions">设置 VPN 连接，以便开始使用云雀通。</string>
+    <string name="keyExpiryExplainer">重新认证以保持与云雀通的连接。</string>
     <string name="deviceKeyNeverExpires">设备密钥不会过期</string>
     <string name="deviceKeyExpires">设备密钥将于 %s 过期</string>
     <string name="deviceKeyExpired">设备密钥已于 %s 过期</string>
@@ -83,11 +85,11 @@
     <!-- Strings for peer details -->
     <string name="os">操作系统</string>
     <string name="key_expiry">密钥到期时间</string>
-    <string name="tailscale_addresses">Tailscale 地址</string>
+    <string name="tailscale_addresses">云雀通地址</string>
     <string name="ping_device">Ping 设备</string>
 
     <!-- Strings for Meshyra login -->
-    <string name="meshyra_client_title">Meshyra 客户端</string>
+    <string name="meshyra_client_title">云雀通客户端</string>
     <string name="meshyra_client_subtitle">安全的点对点网络连接工具</string>
     <string name="meshyra_login_username_label">用户名</string>
     <string name="meshyra_login_username_placeholder">请输入用户名</string>
@@ -107,8 +109,8 @@
     <string name="current_mdm_settings">当前 MDM 设置</string>
     <string name="mdm_settings">MDM 设置</string>
     <string name="managed_by_orgName">由 %1$s 管理</string>
-    <string name="managed_by_explainer">你的组织正在管理此设备上的 Tailscale。部分功能可能已被系统管理员自定义或隐藏。</string>
-    <string name="managed_by_explainer_orgName">%1$s 正在管理此设备上的 Tailscale。部分功能可能已被系统管理员自定义或隐藏。</string>
+    <string name="managed_by_explainer">你的组织正在管理此设备上的云雀通。部分功能可能已被系统管理员自定义或隐藏。</string>
+    <string name="managed_by_explainer_orgName">%1$s 正在管理此设备上的云雀通。部分功能可能已被系统管理员自定义或隐藏。</string>
     <string name="open_support">打开支持资源</string>
 
     <!-- State strings -->
@@ -142,10 +144,10 @@
     <string name="invalidCustomUrl">请输入形如 https://server.com 的有效 URL</string>
     <string name="invalidCustomURLTitle">无效的 URL</string>
     <string name="custom_control_menu">使用其他服务器</string>
-    <string name="custom_control_menu_desc">输入其他 Tailscale 服务器的 URL，或自托管 Headscale 服务器的 URL。</string>
+    <string name="custom_control_menu_desc">输入其他云雀通服务器的 URL，或自托管 Headscale 服务器的 URL。</string>
     <string name="auth_key_menu">使用 Auth Key</string>
     <string name="auth_key_title">使用 Auth Key 添加账户</string>
-    <string name="auth_key_explanation">请输入在 Tailscale 管理控制台中生成的有效 Auth Key</string>
+    <string name="auth_key_explanation">请输入在云雀通管理控制台中生成的有效 Auth Key</string>
     <string name="auth_key_placeholder">例如：tskey-auth-mYta1ln3tCNTRL-s3cr3tauthk3yFr0madM1n</string>
     <string name="invalidAuthKey">提供的 Auth Key 格式不正确。</string>
     <string name="invalidAuthKeyTitle">无效的密钥</string>
@@ -203,30 +205,30 @@
 
     <!-- Strings for DNS settings -->
     <string name="dns_settings">DNS 设置</string>
-    <string name="using_tailscale_dns">正在使用 Tailscale DNS</string>
-    <string name="this_device_is_using_tailscale_to_resolve_dns_names">此设备正在使用 Tailscale 解析 DNS 名称。</string>
+    <string name="using_tailscale_dns">正在使用云雀通 DNS</string>
+    <string name="this_device_is_using_tailscale_to_resolve_dns_names">此设备正在使用云雀通解析 DNS 名称。</string>
     <string name="resolvers">解析器</string>
     <string name="search_domains">搜索域</string>
     <string name="not_running">未运行</string>
-    <string name="tailscale_is_not_running_this_device_is_using_the_system_dns_resolver">Tailscale 未运行。此设备正在使用系统的 DNS 解析器。</string>
+    <string name="tailscale_is_not_running_this_device_is_using_the_system_dns_resolver">云雀通未运行。此设备正在使用系统的 DNS 解析器。</string>
     <string name="this_device_is_using_the_system_dns_resolver">此设备正在使用系统 DNS 解析器。</string>
-    <string name="not_using_tailscale_dns">未使用 Tailscale DNS</string>
+    <string name="not_using_tailscale_dns">未使用云雀通 DNS</string>
     <string name="allow_lan_access">允许局域网访问</string>
     <string name="countries">国家</string>
     <string name="cities_available">可用城市</string>
 
     <!-- Strings for MDM Settings Manifest (app_restrictions.xml) -->
-    <string name="prevents_the_user_from_disconnecting_tailscale">阻止用户断开 Tailscale。</string>
+    <string name="prevents_the_user_from_disconnecting_tailscale">阻止用户断开云雀通。</string>
     <string name="force_enabled_connection_toggle">强制启用连接开关</string>
     <string name="exit_node_id">出口节点 ID</string>
-    <string name="forces_the_tailscale_client_to_always_use_the_exit_node_with_the_given_id">强制 Tailscale 客户端始终使用指定 ID 的出口节点。</string>
+    <string name="forces_the_tailscale_client_to_always_use_the_exit_node_with_the_given_id">强制云雀通客户端始终使用指定 ID 的出口节点。</string>
     <string name="managed_by_organization_name">管理方 - 组织名称</string>
     <string name="managed_by_caption">管理方 - 说明文字</string>
     <string name="managed_by_url">管理方 - URL</string>
     <string name="shows_a_button_to_open_support_resources_next_to_the_organization_name">在组织名称旁显示一个按钮，用于打开支持资源。</string>
     <string name="shows_the_given_caption_next_to_the_organization_name_in_the_client">在客户端中于组织名称旁显示指定的说明文字。</string>
     <string name="shows_the_given_organization_name_in_the_client">在客户端中显示指定的组织名称。</string>
-    <string name="the_tailnet_policy_allows_the_organization_to_specify_a_tailnet">Tailnet 策略允许组织指定一个 tailnet，其身份提供方将用于登录页面。如果策略值以 required: 为前缀，Tailscale 将强制使用该身份提供方，并且不允许使用其他方式登录。</string>
+    <string name="the_tailnet_policy_allows_the_organization_to_specify_a_tailnet">Tailnet 策略允许组织指定一个 tailnet，其身份提供方将用于登录页面。如果策略值以 required: 为前缀，云雀通将强制使用该身份提供方，并且不允许使用其他方式登录。</string>
     <string name="required_suggested_tailnet">必需/建议的 tailnet</string>
     <string name="custom_control_server_url">自定义控制服务器 URL</string>
     <string name="use_this_field_to_specify_a_custom_coordination_server_url_such_as_a_headscale_instance">使用此字段指定自定义协调服务器 URL，例如 Headscale 实例。</string>
@@ -234,10 +236,10 @@
     <string name="hides_the_specified_categories_of_network_devices_from_the_devices_list_in_the_client">在客户端的设备列表中隐藏指定类别的网络设备。</string>
     <string name="allow_lan_access_when_using_an_exit_node">使用出口节点时允许局域网访问</string>
     <string name="enable_posture_checking">启用姿态检查</string>
-    <string name="device_serial_number">运行 Tailscale 的设备序列号</string>
-    <string name="device_serial_number_descr">允许管理员通过 MDM 将设备序列号传递给 Tailscale 客户端。</string>
-    <string name="use_tailscale_dns_settings">使用 Tailscale DNS 设置</string>
-    <string name="use_tailscale_subnets">使用 Tailscale 子网</string>
+    <string name="device_serial_number">运行云雀通的设备序列号</string>
+    <string name="device_serial_number_descr">允许管理员通过 MDM 将设备序列号传递给云雀通客户端。</string>
+    <string name="use_tailscale_dns_settings">使用云雀通 DNS 设置</string>
+    <string name="use_tailscale_subnets">使用云雀通子网</string>
     <string name="allow_incoming_connections">允许传入连接</string>
     <string name="exit_node_picker_visibility">出口节点选择器可见性</string>
     <string name="shows_or_hides_the_exit_node_picker_in_the_main_view_of_the_app">在应用主界面中显示或隐藏出口节点选择器。</string>
@@ -260,7 +262,7 @@
     <string name="notification_settings_explanation">持久状态通知默认关闭，可在系统设置中启用。</string>
     <string name="taildrop_dir">Taildrop 目录</string>
     <string name="taildrop_dir_access">Taildrop 目录访问</string>
-    <string name="permission_taildrop_dir">授予 Tailscale 访问文件夹的权限，以便下载通过 Taildrop 发送给你的入站文件。</string>
+    <string name="permission_taildrop_dir">授予云雀通访问文件夹的权限，以便下载通过 Taildrop 发送给你的入站文件。</string>
     <string name="dir_access">目录访问</string>
     <string name="pick_dir">选择其他目录</string>
 
@@ -291,14 +293,14 @@
 
     <!-- Strings for the intro screen -->
     <string name="getStarted">开始使用</string>
-    <string name="welcome1">Tailscale 是一种用于安全连接设备的 mesh VPN。</string>
+    <string name="welcome1">云雀通是一种用于安全连接设备的 mesh VPN。</string>
     <string name="welcome2">所有连接都是设备到设备的，因此我们不会看到你的数据。为帮助你连接设备并管理设置，我们会收集并使用你的电子邮件地址和姓名，以及设备名称、操作系统版本和 IP 地址。我们会记录你连接到网络的时间。</string>
     <string name="scan_to_connect_to_your_tailnet">扫描此二维码以登录到你的 tailnet</string>
     <string name="enter_code_to_connect_to_tailnet">或在管理控制台的“Machines &gt; Add device”部分输入此代码：</string>
 
     <!-- Strings for intent handling -->
     <string name="vpn_is_not_ready_to_start">VPN 尚未准备好启动</string>
-    <string name="tailscale_is_not_setup">Tailscale 尚未设置</string>
+    <string name="tailscale_is_not_setup">云雀通尚未设置</string>
     <string name="no_peers_found">未找到对等设备</string>
     <string name="no_peers_with_name_found">未找到名称为 %1$s 的对等设备</string>
     <string name="multiple_peers_with_name_found">找到多个名称为 %1$s 的对等设备</string>
@@ -306,8 +308,8 @@
     <string name="use_exit_node_intent_failed">使用出口节点 Intent 失败</string>
 
     <!-- Strings for the IPNReceiver -->
-    <string name="title_connection_failed">Tailscale 连接失败</string>
-    <string name="body_open_tailscale">点击此处打开 Tailscale。</string>
+    <string name="title_connection_failed">云雀通连接失败</string>
+    <string name="body_open_tailscale">点击此处打开云雀通。</string>
 
     <!-- Strings describing notification channels -->
     <string name="taildrop_file_transfers">Taildrop 文件传输</string>
@@ -327,13 +329,13 @@
     <string name="an_unknown_error_occurred_please_try_again">发生未知错误。请重试。</string>
     <string name="request_timed_out_make_sure_that_is_online">请求超时。请确认“%1$s”在线。</string>
     <string name="split_tunneling">应用分流</string>
-    <string name="exclude_certain_apps_from_using_tailscale">排除某些应用不使用 Tailscale</string>
-    <string name="selected_apps_will_access_the_internet_directly_without_using_tailscale">在此选择的应用将直接访问互联网，而不使用 Tailscale。</string>
+    <string name="exclude_certain_apps_from_using_tailscale">排除某些应用不使用云雀通</string>
+    <string name="selected_apps_will_access_the_internet_directly_without_using_tailscale">在此选择的应用将直接访问互联网，而不使用云雀通。</string>
     <string name="count_excluded_apps">已排除的应用（%1$s）</string>
-    <string name="certain_apps_are_not_routed_via_tailscale">此设备上的某些应用不会通过 Tailscale 路由。此设置由你的组织管理，你无法更改。更多信息请联系网络管理员。</string>
-    <string name="only_specific_apps_are_routed_via_tailscale">此设备上仅特定应用通过 Tailscale 路由。此设置由你的组织管理，你无法更改。更多信息请联系网络管理员。</string>
-    <string name="specifies_a_list_of_apps_that_will_be_excluded_from_tailscale_routes_and_dns_even_when_tailscale_is_running_all_other_apps_will_use_tailscale">指定一个应用列表，即使 Tailscale 正在运行，这些应用也会被排除在 Tailscale 路由和 DNS 之外。其他所有应用将使用 Tailscale。</string>
-    <string name="specifies_a_list_of_apps_that_will_always_use_tailscale_routes_and_dns_when_tailscale_is_running_all_other_apps_won_t_use_tailscale_if_this_value_is_non_empty">指定一个应用列表，当 Tailscale 运行时，这些应用将始终使用 Tailscale 路由和 DNS。如果该值非空，其他所有应用将不会使用 Tailscale。</string>
+    <string name="certain_apps_are_not_routed_via_tailscale">此设备上的某些应用不会通过云雀通路由。此设置由你的组织管理，你无法更改。更多信息请联系网络管理员。</string>
+    <string name="only_specific_apps_are_routed_via_tailscale">此设备上仅特定应用通过云雀通路由。此设置由你的组织管理，你无法更改。更多信息请联系网络管理员。</string>
+    <string name="specifies_a_list_of_apps_that_will_be_excluded_from_tailscale_routes_and_dns_even_when_tailscale_is_running_all_other_apps_will_use_tailscale">指定一个应用列表，即使云雀通正在运行，这些应用也会被排除在云雀通路由和 DNS 之外。其他所有应用将使用云雀通。</string>
+    <string name="specifies_a_list_of_apps_that_will_always_use_tailscale_routes_and_dns_when_tailscale_is_running_all_other_apps_won_t_use_tailscale_if_this_value_is_non_empty">指定一个应用列表，当云雀通运行时，这些应用将始终使用云雀通路由和 DNS。如果该值非空，其他所有应用将不会使用云雀通。</string>
     <string name="included_packages">包含的包</string>
     <string name="excluded_packages">排除的包</string>
 
@@ -345,14 +347,14 @@
     <string name="green_checkmark_content_description">绿色对勾</string>
     <string name="health_warnings">健康警告</string>
     <string name="no_issues_found">未发现问题</string>
-    <string name="tailscale_is_operating_normally">Tailscale 运行正常。</string>
+    <string name="tailscale_is_operating_normally">云雀通运行正常。</string>
 
     <!-- Strings for the multiple VPNs dialog -->
     <string name="vpn_permission_denied">VPN 权限被拒绝</string>
-    <string name="multiple_vpn_explainer">一次只能启用一个 VPN，似乎已有其他 VPN 正在运行。在启动 Tailscale 之前，请先禁用其他 VPN。</string>
+    <string name="multiple_vpn_explainer">一次只能启用一个 VPN，似乎已有其他 VPN 正在运行。在启动云雀通之前，请先禁用其他 VPN。</string>
     <string name="go_to_settings">前往设置</string>
     <string name="subnet_routes">子网路由</string>
-    <string name="run_as_subnet_router_header">向未运行 Tailscale 的机器发布路由，使其在你的 tailnet 中可用。路由必须在管理控制台中批准。</string>
+    <string name="run_as_subnet_router_header">向未运行云雀通的机器发布路由，使其在你的 tailnet 中可用。路由必须在管理控制台中批准。</string>
     <string name="open_kb_article">打开知识库文章</string>
     <string name="delete_route">删除路由</string>
     <string name="edit_route">编辑路由</string>
@@ -372,7 +374,7 @@
 
     <!-- Strings for fallback VPN dialog -->
     <string name="vpn_permission_needed">需要 VPN 权限</string>
-    <string name="vpn_explainer">Tailscale 需要 VPN 访问权限，但你的设备似乎可能不会显示 VPN 设置。如果你正在使用其他 VPN 应用或有工作策略，请先禁用它们，然后再试一次。</string>
+    <string name="vpn_explainer">云雀通需要 VPN 访问权限，但你的设备似乎可能不会显示 VPN 设置。如果你正在使用其他 VPN 应用或有工作策略，请先禁用它们，然后再试一次。</string>
 
     <!-- Strings for the taildrop directory picker interstitial -->
     <string name="taildrop_directory_picker_title">Taildrop 目录</string>
