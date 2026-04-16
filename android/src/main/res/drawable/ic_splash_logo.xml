@@ -1,6 +1,5 @@
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:inset="16dp">
-    
+    android:inset="20dp">
     <bitmap
         android:gravity="fill"
         android:src="@drawable/larktun_logo" />
