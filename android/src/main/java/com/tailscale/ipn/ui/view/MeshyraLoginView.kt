@@ -419,7 +419,7 @@ private fun MeshyraLoginLoadingOverlay(message: String) {
                         color = MaterialTheme.colorScheme.primary,
                         strokeWidth = 3.dp,
                     )
-                    TailscaleLogoView(modifier = Modifier.size(36.dp))
+                    TailscaleLogoView(animated = true, modifier = Modifier.size(44.dp))
                 }
 
                 Text(
