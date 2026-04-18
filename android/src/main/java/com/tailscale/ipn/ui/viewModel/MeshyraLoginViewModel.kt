@@ -11,6 +11,7 @@ import com.tailscale.ipn.ui.network.CaptchaResponseData
 import com.tailscale.ipn.ui.network.DeviceLoginRequest
 import com.tailscale.ipn.ui.network.MeshyraApiException
 import com.tailscale.ipn.ui.network.MeshyraAuthApi
+import com.tailscale.ipn.ui.notifier.Notifier
 import com.tailscale.ipn.ui.util.set
 import com.tailscale.ipn.util.TSLog
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,11 +21,24 @@ import kotlinx.coroutines.launch
 class MeshyraLoginViewModel : IpnViewModel() {
 
   val isLoading: StateFlow<Boolean> = MutableStateFlow(false)
+  val loadingMessageRes: StateFlow<Int?> = MutableStateFlow(null)
   val isCaptchaLoading: StateFlow<Boolean> = MutableStateFlow(false)
   val captcha: StateFlow<CaptchaResponseData?> = MutableStateFlow(null)
   val errorMessage: StateFlow<String?> = MutableStateFlow(null)
+  private val waitingForBackendLogin: StateFlow<Boolean> = MutableStateFlow(false)
+  private var pendingOnSuccess: (() -> Unit)? = null
 
   init {
+    viewModelScope.launch {
+      Notifier.state.collect { state ->
+        if (waitingForBackendLogin.value && state != Ipn.State.NeedsLogin) {
+          stopLoading()
+          waitingForBackendLogin.set(false)
+          pendingOnSuccess?.invoke()
+          pendingOnSuccess = null
+        }
+      }
+    }
     refreshCaptcha()
   }
 
@@ -56,7 +70,11 @@ class MeshyraLoginViewModel : IpnViewModel() {
     }
 
     viewModelScope.launch {
+      errorMessage.set(null)
       isLoading.set(true)
+      waitingForBackendLogin.set(false)
+      pendingOnSuccess = null
+      loadingMessageRes.set(R.string.meshyra_login_loading_authenticating)
       val loginResult =
           MeshyraAuthApi.deviceLogin(
               DeviceLoginRequest(
@@ -75,26 +93,44 @@ class MeshyraLoginViewModel : IpnViewModel() {
                   else -> null
                 }
             errorMessage.set(message ?: context.getString(R.string.network_error))
-            isLoading.set(false)
+            waitingForBackendLogin.set(false)
+            pendingOnSuccess = null
+            stopLoading()
             refreshCaptcha()
           }
           .onSuccess { data ->
             val prefs = Ipn.MaskedPrefs()
             prefs.ControlURL = data.serverUrl
+            loadingMessageRes.set(R.string.meshyra_login_loading_connecting)
+            pendingOnSuccess = onSuccess
 
             login(prefs, authKey = data.authKey) { result ->
-              isLoading.set(false)
               result
                   .onSuccess {
                     errorMessage.set(null)
-                    onSuccess()
+                    waitingForBackendLogin.set(true)
+                    loadingMessageRes.set(R.string.meshyra_login_loading_finishing)
+                    if (Notifier.state.value != Ipn.State.NeedsLogin) {
+                      stopLoading()
+                      waitingForBackendLogin.set(false)
+                      pendingOnSuccess?.invoke()
+                      pendingOnSuccess = null
+                    }
                   }
                   .onFailure { t ->
+                    waitingForBackendLogin.set(false)
+                    pendingOnSuccess = null
+                    stopLoading()
                     TSLog.e("MeshyraLogin", "Headscale login failed: $t")
                     errorMessage.set(t.message ?: context.getString(R.string.login_failed))
                   }
             }
           }
     }
+  }
+
+  private fun stopLoading() {
+    isLoading.set(false)
+    loadingMessageRes.set(null)
   }
 }

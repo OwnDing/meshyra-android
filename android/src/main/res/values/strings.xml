@@ -102,6 +102,11 @@
     <string name="meshyra_login_captcha_image">Captcha image</string>
     <string name="meshyra_login_error_missing_fields">Please fill in username, password, and verification code.</string>
     <string name="meshyra_login_error_captcha_not_ready">Captcha not ready. Tap the image to refresh.</string>
+    <string name="meshyra_login_loading_title">Signing in</string>
+    <string name="meshyra_login_loading_authenticating">Verifying your account</string>
+    <string name="meshyra_login_loading_connecting">Connecting to your network</string>
+    <string name="meshyra_login_loading_finishing">Finalizing device sign-in</string>
+    <string name="meshyra_login_loading_hint">This can take a few seconds. Please keep the app open.</string>
     <string name="network_error">Network error. Please try again.</string>
     <string name="language_toggle_to_chinese">中文</string>
     <string name="language_toggle_to_english">EN</string>
