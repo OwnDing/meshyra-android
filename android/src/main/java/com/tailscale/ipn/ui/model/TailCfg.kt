@@ -17,7 +17,12 @@ import com.tailscale.ipn.ui.util.flag
 import com.tailscale.ipn.ui.viewModel.PeerSettingInfo
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.contentOrNull
 import java.util.Date
+
+private const val nodeAliasCapability = "https://meshyra.example/cap/node-alias"
 
 class Tailcfg {
   @Serializable
@@ -115,8 +120,26 @@ class Tailcfg {
               ComputedName?.endsWith(".mullvad.ts.net") == true ||
               Hostinfo.Location != null
 
+    val aliasName: String?
+      get() {
+        val aliasValue = CapMap?.get(nodeAliasCapability) ?: return null
+        val alias =
+            when (aliasValue) {
+              is JsonArray -> (aliasValue.firstOrNull() as? JsonPrimitive)?.contentOrNull
+              is JsonPrimitive -> aliasValue.contentOrNull
+              else -> null
+            }
+        return alias?.trim()?.takeIf { it.isNotEmpty() }
+      }
+
+    val hostName: String?
+      get() = Hostinfo.Hostname?.trim()?.takeIf { it.isNotEmpty() }
+
+    private val computedDisplayName: String?
+      get() = ComputedName?.trim()?.takeIf { it.isNotEmpty() }
+
     val displayName: String
-      get() = ComputedName ?: Name
+      get() = aliasName ?: hostName ?: computedDisplayName ?: nameWithoutTrailingDot
 
     val exitNodeName: String
       get() {

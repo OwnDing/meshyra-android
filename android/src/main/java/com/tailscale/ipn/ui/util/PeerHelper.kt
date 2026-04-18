@@ -68,9 +68,7 @@ class PeerCategorizer {
                       a.StableID == b.StableID -> 0
                       a.isSelfNode(netmap) -> -1
                       b.isSelfNode(netmap) -> 1
-                      else ->
-                          (a.ComputedName?.lowercase() ?: "").compareTo(
-                              b.ComputedName?.lowercase() ?: "")
+                      else -> a.displayName.lowercase().compareTo(b.displayName.lowercase())
                     }
                   })
             }
@@ -114,6 +112,8 @@ class PeerCategorizer {
               val matchingPeers =
                   peers.filter {
                     it.displayName.contains(searchTerm, ignoreCase = true) ||
+                        (it.hostName?.contains(searchTerm, ignoreCase = true) == true) ||
+                        it.nameWithoutTrailingDot.contains(searchTerm, ignoreCase = true) ||
                         (it.Addresses ?: emptyList()).fastAny { addr -> addr.contains(searchTerm) }
                   }
               if (matchingPeers.isNotEmpty()) {

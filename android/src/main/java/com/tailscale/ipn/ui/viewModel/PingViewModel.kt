@@ -97,8 +97,7 @@ class PingViewModel : ViewModel() {
           TSLog.d(TAG, "Ping request failed: $stringError")
           if (stringError.contains("timeout")) {
             this.errorMessage.set(
-                context.getString(
-                    R.string.request_timed_out_make_sure_that_is_online, peer.ComputedName))
+                context.getString(R.string.request_timed_out_make_sure_that_is_online, peer.displayName))
           } else {
             this.errorMessage.set(
                 context.getString(R.string.an_unknown_error_occurred_please_try_again))
