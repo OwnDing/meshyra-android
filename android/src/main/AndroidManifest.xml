@@ -96,9 +96,9 @@
             android:name="IPNReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.tailscale.ipn.CONNECT_VPN" />
-                <action android:name="com.tailscale.ipn.DISCONNECT_VPN" />
-                <action android:name="com.tailscale.ipn.USE_EXIT_NODE" />
+                <action android:name="com.larktun.ipn.CONNECT_VPN" />
+                <action android:name="com.larktun.ipn.DISCONNECT_VPN" />
+                <action android:name="com.larktun.ipn.USE_EXIT_NODE" />
             </intent-filter>
         </receiver>
 

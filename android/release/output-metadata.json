@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.tailscale.ipn",
+  "applicationId": "com.larktun.ipn",
   "variantName": "release",
   "elements": [
     {

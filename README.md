@@ -109,8 +109,8 @@ Then some useful commands:
 ```
 adb connect 10.2.200.213:5555
 adb install -r tailscale-fdroid.apk
-adb shell am start -n com.tailscale.ipn/com.tailscale.ipn.MainActivity
-adb shell pm uninstall com.tailscale.ipn
+ adb shell am start -n com.larktun.ipn/com.larktun.ipn.MainActivity
+ adb shell pm uninstall com.larktun.ipn
 ```
 
 ## Bugs

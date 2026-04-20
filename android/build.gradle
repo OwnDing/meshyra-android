@@ -37,6 +37,7 @@ android {
     defaultConfig {
         minSdkVersion 26
         targetSdkVersion 34
+        applicationId "com.larktun.ipn"
         versionCode 356
         versionName getVersionProperty("VERSION_LONG")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -74,7 +75,7 @@ android {
         kotlinCompilerExtensionVersion = "$compose_version"
     }
     flavorDimensions "version"
-    namespace 'com.tailscale.ipn'
+    namespace 'com.larktun.ipn'
 
     buildTypes {
         applicationTest {
