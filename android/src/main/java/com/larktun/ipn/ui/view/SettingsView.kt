@@ -73,7 +73,7 @@ fun SettingsView(
 
           if (isAdmin && !isAndroidTV()) {
             Lists.ItemDivider()
-            AdminTextView { handler.openUri(Links.ADMIN_URL) }
+            AdminTextView { handler.openUri(Links.SETTINGS_ADMIN_URL) }
           }
 
           Lists.SectionDivider()
@@ -117,9 +117,6 @@ fun SettingsView(
                 title = stringResource(R.string.managed_by_orgName, it),
                 onClick = settingsNav.onNavigateToManagedBy)
           }
-
-          Lists.SectionDivider()
-          Setting.Text(R.string.bug_report, onClick = settingsNav.onNavigateToBugReport)
 
           Lists.ItemDivider()
           Setting.Text(
@@ -198,7 +195,7 @@ fun AdminTextView(onNavigateToAdminConsole: () -> Unit) {
   val adminStr = buildAnnotatedString {
     append(stringResource(id = R.string.settings_admin_prefix))
 
-    pushStringAnnotation(tag = "link", annotation = Links.ADMIN_URL)
+    pushStringAnnotation(tag = "link", annotation = Links.SETTINGS_ADMIN_URL)
     withStyle(
         style =
             SpanStyle(
